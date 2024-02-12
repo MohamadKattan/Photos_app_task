@@ -35,9 +35,9 @@ class ImageController extends ChangeNotifier {
         url = '$apiUrl?continuationToken=${_listResult[0].continuationToken}';
       }
     }
-    _listResult.clear();
     final response = await HttpSrv().getData(url: url ?? apiUrl);
     if (response is Success) {
+      _listResult.clear();
       Map<String, dynamic> map = response.response as Map<String, dynamic>;
       ImagesModel newImagesModel = ImagesModel.fromMap(map['result']);
       _listResult.add(newImagesModel);

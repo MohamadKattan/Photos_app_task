@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../components /tost_msg.dart';
 import '../utils/constants.dart';
 
@@ -8,7 +10,7 @@ class ErrorHttpHandler {
   displayErrorHttp() {
     switch (code) {
       case 400:
-        TostMsg().displayTostMsg(msg: ' $errorResponseMsg $code');
+        TostMsg().displayTostMsg(msg: 'Value is not valid try again $code',color: Colors.amber);
         break;
       case 401:
         TostMsg()

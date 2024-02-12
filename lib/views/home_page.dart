@@ -30,18 +30,64 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ImageController imageController = context.watch<ImageController>();
     ResponsiveUtils.checkResponsive(context);
-    return SafeArea(
-      child: Scaffold(
-          drawer: const CustomDrawer(),
-          appBar: CustomAppBar(context: context, txtTitle: 'Список изображений'),
-          body: imageController.isLouding
-              ? const Center(child: CircularProgressIndicator())
-              : _body(imageController.listResult)),
+    ImageController imageController = context.watch<ImageController>();
+    return WillPopScope(
+      onWillPop: () async => true,
+      child: SafeArea(
+        child: Scaffold(
+            drawer: const CustomDrawer(),
+            appBar:
+                CustomAppBar(context: context, txtTitle: 'Список изображений'),
+            body: imageController.isLouding
+                ? const Center(child: CircularProgressIndicator())
+                : _body(imageController.listResult)),
+      ),
     );
   }
+
+  // Widget _body1() {
+  //   return FutureBuilder<dynamic>(
+  //     future: ImageController().getListOfImagesFromApi1(context: context),
+  //     builder: (context, snapshot) {
+  //       if (snapshot.hasData) {
+  //         ResponsiveUtils.checkResponsive(context);
+  //         ImagesModel res = snapshot.data;
+  //         return GridView.builder(
+  //             primary: false,
+  //             controller: _controller,
+  //             physics: const ClampingScrollPhysics(),
+  //             padding: const EdgeInsets.all(8),
+  //             shrinkWrap: true,
+  //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //               crossAxisCount: columnsCount,
+  //               crossAxisSpacing: 8,
+  //               mainAxisSpacing: 8,
+  //               childAspectRatio: 2 / 2,
+  //             ),
+  //             itemBuilder: (BuildContext context, int i) {
+  //               return _cardImage1(res.items, i, context);
+  //             },
+  //             itemCount: res.items?.length ?? 0);
+  //       } else if (snapshot.hasError) {
+  //         return const Column(
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [Text('error'), CircularProgressIndicator()],
+  //         );
+  //       } else {
+  //         return const Center(child: CircularProgressIndicator());
+  //       }
+  //     },
+  //   );
+  // }
 
   Widget _body(List<ImagesModel> list) {
     return list.isNotEmpty
@@ -61,7 +107,7 @@ class _HomePageState extends State<HomePage> {
               return _cardImage(list, i, context);
             },
             itemCount: list[0].items?.length)
-        : const Center(child: CircularProgressIndicator());
+        : const Center(child: CircularProgressIndicator(color: Colors.amber));
   }
 
   _cardImage(List<ImagesModel> list, int i, BuildContext context) {
@@ -70,7 +116,9 @@ class _HomePageState extends State<HomePage> {
       onTap: () => _navToPrviewScreen(list, i),
       child: Card(
         child: Image.network(
-          newList.variants![0].url!,
+          newList.variants!.length >= 3
+              ? newList.variants![indexVariants ?? 0].url!
+              : newList.variants![0].url!,
           fit: BoxFit.fill,
           loadingBuilder:
               (BuildContext context, Widget child, loadingProgress) {

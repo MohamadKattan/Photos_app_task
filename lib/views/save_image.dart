@@ -56,6 +56,7 @@ class SaveImageScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8)),
                 child: Image.network(
                   list[i].url,
+                  height: 200.0,
                   width: list[i].width.toDouble(),
                   fit: BoxFit.fill,
                   loadingBuilder:
