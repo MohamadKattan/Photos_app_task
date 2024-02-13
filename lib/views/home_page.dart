@@ -53,42 +53,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget _body1() {
-  //   return FutureBuilder<dynamic>(
-  //     future: ImageController().getListOfImagesFromApi1(context: context),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.hasData) {
-  //         ResponsiveUtils.checkResponsive(context);
-  //         ImagesModel res = snapshot.data;
-  //         return GridView.builder(
-  //             primary: false,
-  //             controller: _controller,
-  //             physics: const ClampingScrollPhysics(),
-  //             padding: const EdgeInsets.all(8),
-  //             shrinkWrap: true,
-  //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //               crossAxisCount: columnsCount,
-  //               crossAxisSpacing: 8,
-  //               mainAxisSpacing: 8,
-  //               childAspectRatio: 2 / 2,
-  //             ),
-  //             itemBuilder: (BuildContext context, int i) {
-  //               return _cardImage1(res.items, i, context);
-  //             },
-  //             itemCount: res.items?.length ?? 0);
-  //       } else if (snapshot.hasError) {
-  //         return const Column(
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [Text('error'), CircularProgressIndicator()],
-  //         );
-  //       } else {
-  //         return const Center(child: CircularProgressIndicator());
-  //       }
-  //     },
-  //   );
-  // }
-
   Widget _body(List<ImagesModel> list) {
     return list.isNotEmpty
         ? GridView.builder(
